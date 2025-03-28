@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sissynator</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.29.0/css/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.29.0/js/blueimp-gallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.7/howler.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid text-center">
+      <div id="banner" class="text-center">
+        <div id="banner-left">
+          <img src="assets/logo.png" alt="Sissynator Logo" id="banner-logo">
+          <h1 id="banner-title">Sissynator</h1>
+        </div>
+        <div id="banner-right">
+          <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#documentation-modal">Documentation</button>
+          <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#import-link-modal">Import Settings</button>
+        </div>
+      </div>
+
+      <!-- Documentation Modal -->
+      <div class="modal fade" id="documentation-modal" tabindex="-1" role="dialog" aria-labelledby="documentation-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="documentation-modal-label">Documentation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li><a href="https://github.com/sandyslut/conditioning" target="_blank">Original Source Code (by sandyslut)</a></li>
+                <li><a href="https://github.com/girlcrab/conditioning" target="_blank">Modified Source Code (by girlcrab)</a></li>
+                <li><a href="documents/license.html" target="_blank">License Documentation</a></li>
+                <li><a href="documents/original_privacy.html" target="_blank">Original Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import Link Modal -->
+      <div class="modal fade" id="import-link-modal" tabindex="-1" role="dialog" aria-labelledby="import-link-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="import-link-modal-label">Import Settings from Link</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="import-link-input">Paste your link here:</label>
+              <input type="text" id="import-link-input" class="form-control" placeholder="https://conditioning.sissynator.com/?shuffle=1&bpm=110&next=15">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="apply-link-button">Apply Settings</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="instructions">
+        <ol>
+          <li>Upload a folder containing your images.</li>
+          <li>Set the beats per minute (BPM) and how many beats per image.</li>
+          <li>Click "Start" to begin your session.</li>
+        </ol>
+      </div>
+
+      <div id="settings">
+        <form class="form-horizontal" autocomplete="off">
+          <div id="folder-group" class="form-group">
+            <div class="folder-input-container">
+              <label class="btn btn-primary" for="folder-input">Upload Folder</label>
+              <input type="file" id="folder-input" webkitdirectory directory multiple class="form-control" style="display: none;">
+            </div>
+            <div class="file-count-container">
+              <span id="file-count" style="color: #EDEDED; font-size: 0.9em;">0 file(s) uploaded</span>
+            </div>
+          </div>
+
+          <div id="beats-group" class="form-group">
+            <label class="control-label" for="beats-input">BPM:</label>
+            <input class="form-control" id="beats-input" type="number">
+          </div>
+
+          <div id="next-group" class="form-group">
+            <label class="control-label" for="next-input">Beats per image:</label>
+            <input class="form-control" id="next-input" type="number">
+          </div>
+
+          <div id="mantra-group" class="form-group">
+            <div class="mantra-input-container">
+              <label class="control-label" for="mantra-input">Mantra:</label>
+              <input class="form-control" id="mantra-input" type="text" placeholder="Enter your mantra">
+            </div>
+            <div class="voice-select-container">
+              <label class="control-label" for="voice-select">Voice:</label>
+              <select class="form-control" id="voice-select">
+                <option value="">Loading voices...</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="start-button-group" class="form-group">
+            <button id="start-button" type="button" class="btn btn-primary">Start</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="mantra-display" class="text-center"></div>
+
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+      <div class="slides"></div>
+      <a class="prev">‹</a>
+      <a class="next">›</a>
+      <a class="close">×</a>
+      <a id="play-pause" class="play-pause"></a>
+      <ol class="indicator"></ol>
+    </div>
+
+    <footer id="footer" class="text-center">
+      <div class="footer-links">
+        <h5>Academy Links</h5>
+        <ul>
+          <li><a href="https://www.reddit.com/r/SissificationAcademy/" target="_blank">Sissification Academy (Reddit)</a></li>
+          <li><a href="https://x.com/sissyloverhq" target="_blank">Sissy Lover HQ (Twitter/X)</a></li>
+          <li><a href="https://sissylover.com/" target="_blank">Sissy Lover (Website)</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
