@@ -160,14 +160,18 @@ function speakMantra(mantra) {
   const selectedVoiceIndex = parseInt(voiceSelect.value, 10);
   if (!isNaN(selectedVoiceIndex) && sissy.voices[selectedVoiceIndex]) {
     utterance.voice = sissy.voices[selectedVoiceIndex];
+    speechSynthesis.speak(utterance);
+
+    sissy.isSpeaking = true;
+    utterance.onend = () => {
+      sissy.isSpeaking = false;
+    };
+  } else {
+    sissy.isSpeaking = true;
+    setTimeout(() => {
+      sissy.isSpeaking = false
+    },1800)
   }
-
-  speechSynthesis.speak(utterance);
-
-  sissy.isSpeaking = true;
-  utterance.onend = () => {
-    sissy.isSpeaking = false;
-  };
 }
 
 // Apply settings from the URL
